@@ -5,59 +5,201 @@ import java.util.*;
 public class FracCalc {
 
 	public static void main(String[] args) {
+
 		Scanner userInput = new Scanner(System.in);
-		String fractions = userInput.nextLine();
-		while (!(fractions.toUpperCase()).equals("QUIT")) {
-			System.out.println(produceAnswer(fractions));
-			fractions = userInput.nextLine();
+
+		String userFractions = userInput.nextLine();
+
+		while (!(userFractions.toUpperCase()).equals("QUIT")) {
+
+			System.out.println(produceAnswer(userFractions));
+
+			userFractions = userInput.nextLine();
+
 		}
-// TODO: Read the input from the user and call produceAnswer with an equation
+
+		userInput.close();
 
 	}
 
-// ** IMPORTANT ** DO NOT DELETE THIS FUNCTION. This function will be used to
-// test your code
-// This function takes a String 'input' and produces the result
-//
-// input is a fraction string that needs to be evaluated. For your program, this
-// will be the user input.
-// e.g. input ==> "1/2 + 3/4"
-//
-// The function should return the result of the fraction after it has been
-// calculated
-// e.g. return ==> "1_1/4"
 	public static String produceAnswer(String input) {
+
 		String operator;
-		int nums1;
-		int topa = input.indexOf(" + ");
-		int topb = input.indexOf(" - ");
-		int topc = input.indexOf(" * ");
-		int topd = input.indexOf(" / ");
-		if (topa != -1) {
-			nums1 = topa;
+
+		int numsBefore;
+
+		int a = input.indexOf(" + ");
+
+		int b = input.indexOf(" - ");
+
+		int c = input.indexOf(" * ");
+
+		int d = input.indexOf(" / ");
+
+		if (a != -1) {
+
+			numsBefore = a;
+
 			operator = "+";
-		} else if (topb != -1) {
-			nums1 = topb;
+
+		} else if (b != -1) {
+
+			numsBefore = b;
+
 			operator = "-";
-		} else if (topc != -1) {
-			nums1 = topc;
+
+		} else if (c != -1) {
+
+			numsBefore = c;
+
 			operator = "*";
+
 		} else {
-			nums1 = topd;
+
+			numsBefore = d;
+
 			operator = "/";
+
 		}
-		String firstFraction = "";
-		String secondFraction = "";
-		for (int i = 0; i < nums1; i++) {
-			firstFraction = firstFraction + input.charAt(i);
+
+		String Fraction1 = "";
+
+		String Fraction2 = "";
+
+		for (int i = 0; i < numsBefore; i++) {
+
+			Fraction1 += input.charAt(i);
+
 		}
-		for (int i = 0; i < input.length() - 3 - nums1; i++) {
-			secondFraction = secondFraction + input.charAt(3 + nums1 + i);
+
+		for (int i = 0; i < input.length() - 3 - numsBefore; i++) {
+
+			Fraction2 += input.charAt(3 + numsBefore + i);
+
 		}
-		return secondFraction;
+
+		int Top1 = Integer.parseInt(whole(Fraction1));
+
+		int Top2 = Integer.parseInt(whole(Fraction2));
+
+		int Numerator1 = Integer.parseInt(numerator(Fraction1));
+
+		int Numerator2 = Integer.parseInt(numerator(Fraction2));
+
+		int Denominator1 = Integer.parseInt(denominator(Fraction1));
+
+		int Denominator2 = Integer.parseInt(denominator(Fraction2));
+
+// sets up fractions for the calculation
+// sets up fractions for the calculation
+
+		return ("whole:" + Top2 + " " + "numerator:" + Numerator2 + " " + "denominator:"
+				+ Denominator2);
+
 	}
 
-// TODO: Fill in the space below with any helper methods that you think you will
-// need
+//finds the whole number in a mixed or whole number
+
+	public static String whole(String fraction) {
+
+		String whole = "";
+
+		if (fraction.indexOf("/") == -1) {
+
+			whole = fraction;
+
+		} else if (fraction.indexOf("_") != -1) {
+
+			int beforeUnderscore = fraction.indexOf("_");
+
+			for (int i = 0; i < beforeUnderscore; i++) {
+
+				whole = whole + fraction.charAt(i);
+
+			}
+
+		} else if (fraction.indexOf("_") == -1) {
+
+			whole = "0";
+
+		}
+
+		return whole;
+
+	}
+
+//finds the numerator of a fraction
+
+	public static String numerator(String fraction) {
+
+		String numerator = "";
+
+		if (fraction.indexOf("/") == -1) {
+
+			numerator = "0";
+
+		} else if (fraction.indexOf("_") != -1) {
+
+			int beforeSlash = fraction.indexOf("/");
+
+			int beforeUnderscore = fraction.indexOf("_");
+
+			for (int i = 0; i < beforeSlash - beforeUnderscore - 1; i++) {
+
+				numerator = numerator + fraction.charAt(beforeUnderscore + 1 + i);
+
+			}
+
+		} else if (fraction.indexOf("_") == -1) {
+
+			int beforeSlash = fraction.indexOf("/");
+
+			for (int i = 0; i < beforeSlash; i++) {
+
+				numerator = numerator + fraction.charAt(i);
+
+			}
+
+		}
+
+		return numerator;
+
+	}
+
+//finds the denominator of a fraction
+
+	public static String denominator(String fraction) {
+
+		String denominator = "";
+
+		if (fraction.indexOf("/") == -1) {
+
+			denominator = "1";
+
+		} else if (fraction.indexOf("_") != -1) {
+
+			int beforeSlash = fraction.indexOf("/");
+
+			for (int i = 0; i < fraction.length() - beforeSlash - 1; i++) {
+
+				denominator = denominator + fraction.charAt(beforeSlash + 1 + i);
+
+			}
+
+		} else if (fraction.indexOf("_") == -1) {
+
+			int beforeSlash = fraction.indexOf("/");
+
+			for (int i = 0; i < fraction.length() - beforeSlash - 1; i++) {
+
+				denominator = denominator + fraction.charAt(beforeSlash + 1 + i);
+
+			}
+
+		}
+
+		return denominator;
+
+	}
 
 }
